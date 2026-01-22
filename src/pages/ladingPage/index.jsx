@@ -2,12 +2,34 @@ import { Header } from "../../components/header";
 import "./index.css";
 
 export function LadingPage() {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const data = {
+      nome: form[0].value,
+      email: form[1].value,
+      mensagem: form[2].value,
+    };
+
+    await fetch("http://localhost:3001/contato", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    alert("Mensagem enviada!");
+    form.reset();
+  };
+
   return (
     <>
       <Header />
 
       <main className="landPageMain">
-
         {/* HERO / INTRO */}
         <section id="home" className="pageSect sect1">
           <div className="sect1Content">
@@ -33,23 +55,17 @@ export function LadingPage() {
           <div className="cardsGrid">
             <div className="card">
               <h3>Transporte Rodoviário</h3>
-              <p>
-                Entregas rápidas e seguras em todo o território nacional.
-              </p>
+              <p>Entregas rápidas e seguras em todo o território nacional.</p>
             </div>
 
             <div className="card">
               <h3>Logística Inteligente</h3>
-              <p>
-                Planejamento estratégico para reduzir custos e prazos.
-              </p>
+              <p>Planejamento estratégico para reduzir custos e prazos.</p>
             </div>
 
             <div className="card">
               <h3>Rastreamento 24h</h3>
-              <p>
-                Acompanhe sua carga em tempo real, do início ao fim.
-              </p>
+              <p>Acompanhe sua carga em tempo real, do início ao fim.</p>
             </div>
           </div>
         </section>
@@ -73,14 +89,13 @@ export function LadingPage() {
         <section id="contato" className="pageSect sect4">
           <h2 className="sectionTitle">Contato</h2>
 
-          <form className="contactForm">
+          <form className="contactForm" onSubmit={handleSubmit}>
             <input type="text" placeholder="Nome" required />
             <input type="email" placeholder="Email" required />
             <textarea placeholder="Mensagem" required></textarea>
             <button type="submit">Enviar</button>
           </form>
         </section>
-
       </main>
 
       {/* FOOTER */}

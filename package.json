@@ -23,5 +23,18 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "vite": "^7.2.4"
-  }
+  },
+  "description": "Projeto Devopsgit",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreMilaniNio/LandingPageDevopsRPV.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndreMilaniNio/LandingPageDevopsRPV/issues"
+  },
+  "homepage": "https://github.com/AndreMilaniNio/LandingPageDevopsRPV#readme"
 }
