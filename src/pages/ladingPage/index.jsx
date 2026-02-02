@@ -20,7 +20,7 @@ export function LadingPage() {
 
             <img
               className="sect1Image"
-              src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7"
+              src="../../../images/caminhao-volvo.png"
               alt="Caminhão de transporte"
             />
           </div>
