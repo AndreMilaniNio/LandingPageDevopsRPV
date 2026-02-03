@@ -1,0 +1,48 @@
+# Define o nome no workflow
+name: Deploy to Github Pages
+
+# É o gatilho(trigger)
+on: 
+  #envia o código
+  push: 
+  # Filtra o gatilho. A automação só trabalha com pastas principais.
+  branches: ["main", "master"]
+
+# Isso cria um botão no site do Github
+workflow_dispatch:
+
+permission:
+  content: read
+  pages: write
+  id-token write
+
+#Integridade das páginas
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Significa trabalhos, lista de tarefas
+jobs: 
+  deploy:
+    environment: 
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Rodar no sistema operacional Ubunto
+    runs-on: ubuntu-latest
+    steps:
+      # Nome deste passo em específico
+      - name: Checkout
+      # Ação pronta vai no repositório e copia os arquivos e envia para dentro da máquina virtual
+        users: action/checkout@v4
+
+      - name: Setup pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with: 
+          path: "."
+
+      - name: Deploy to Github Pages 
+        id: deployment
+        uses: actions/deploy-pages@v4
