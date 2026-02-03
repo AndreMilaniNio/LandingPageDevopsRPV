@@ -14,7 +14,7 @@ workflow_dispatch:
 permission:
   content: read
   pages: write
-  id-token write
+  id-token: write
 
 #Integridade das páginas
 concurrency:
