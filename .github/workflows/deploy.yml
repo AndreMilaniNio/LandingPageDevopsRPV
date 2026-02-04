@@ -1,48 +1,52 @@
-# Define o nome no workflow
-name: Deploy to Github Pages
+name: Deploy to GitHub Pages
 
-# É o gatilho(trigger)
-on: 
-  #envia o código
-  push: 
-  # Filtra o gatilho. A automação só trabalha com pastas principais.
-  branches: ["main", "master"]
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
 
-# Isso cria um botão no site do Github
-workflow_dispatch:
-
-permission:
-  content: read
+permissions:
+  contents: read
   pages: write
   id-token: write
 
-#Integridade das páginas
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
-# Significa trabalhos, lista de tarefas
-jobs: 
+jobs:
   deploy:
-    environment: 
+    runs-on: ubuntu-latest
+
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Rodar no sistema operacional Ubunto
-    runs-on: ubuntu-latest
-    steps:
-      # Nome deste passo em específico
-      - name: Checkout
-      # Ação pronta vai no repositório e copia os arquivos e envia para dentro da máquina virtual flamengo
-        users: action/checkout@v4
 
-      - name: Setup pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with: 
-          path: "."
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
 
-      - name: Deploy to Github Pages 
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
