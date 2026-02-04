@@ -32,7 +32,7 @@ jobs:
     steps:
       # Nome deste passo em específico
       - name: Checkout
-      # Ação pronta vai no repositório e copia os arquivos e envia para dentro da máquina virtual
+      # Ação pronta vai no repositório e copia os arquivos e envia para dentro da máquina virtual flamengo
         users: action/checkout@v4
 
       - name: Setup pages
