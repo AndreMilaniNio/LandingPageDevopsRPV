@@ -28,42 +28,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ================================
-      # PARTE 2 - O SUPER SCRIPT
-      # ================================
-      - name: Organizando pacote de distribuição
+      - name: Validar sintae do HTML
+        uses: htmlhint/htmlhint-action@v2
+        with:
+          target_pattern: "index.html"
+
+      - name: Preparando versão de produção
         run: |
-          echo "🔥 Limpando dist antiga..."
-          rm -rf dist
+          echo "Iniciando Pipeline de preparação para React (Vite)..."
 
-          echo "📁 Criando nova pasta dist..."
-          mkdir dist
+          # A pasta dist será criada automaticamente pelo npm run build
+          echo "Aguardando geração da build..."
 
-          echo "📄 Copiando arquivos HTML..."
-          cp *.html dist/
+          # Apenas exibimos a estrutura antes da build (opcional)
+          ls -la
 
-          echo "🖼 Copiando pasta assets..."
-          cp -r assets dist/
+          echo "Ambiente pronto para gerar a build de produção."
 
-          echo "📋 Listando conteúdo da dist:"
-          ls -la dist
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-      # ================================
-      # PARTE 3 - AUDITORIA
-      # ================================
-      - name: Auditoria de Qualidade
-        run: |
-          echo "🔎 Verificando arquivos obrigatórios..."
+      - name: Install dependencies
+        run: npm install
 
-          test -f dist/index.html
-          test -f dist/sobre.html
-          test -f dist/contato.html
+      - name: Build React app
+        run: npm run build
 
-          echo "✅ Todos os arquivos principais estão presentes!"
-
-      # ================================
-      # DEPLOY
-      # ================================
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
