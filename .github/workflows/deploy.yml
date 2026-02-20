@@ -28,17 +28,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      # ================================
+      # PARTE 2 - O SUPER SCRIPT
+      # ================================
+      - name: Organizando pacote de distribuição
+        run: |
+          echo "🔥 Limpando dist antiga..."
+          rm -rf dist
 
-      - name: Install dependencies
-        run: npm install
+          echo "📁 Criando nova pasta dist..."
+          mkdir dist
 
-      - name: Build React app
-        run: npm run build
+          echo "📄 Copiando arquivos HTML..."
+          cp *.html dist/
 
+          echo "🖼 Copiando pasta assets..."
+          cp -r assets dist/
+
+          echo "📋 Listando conteúdo da dist:"
+          ls -la dist
+
+      # ================================
+      # PARTE 3 - AUDITORIA
+      # ================================
+      - name: Auditoria de Qualidade
+        run: |
+          echo "🔎 Verificando arquivos obrigatórios..."
+
+          test -f dist/index.html
+          test -f dist/sobre.html
+          test -f dist/contato.html
+
+          echo "✅ Todos os arquivos principais estão presentes!"
+
+      # ================================
+      # DEPLOY
+      # ================================
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
